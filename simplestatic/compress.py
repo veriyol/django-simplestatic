@@ -2,6 +2,8 @@ import hashlib
 import os
 import subprocess
 
+import cssmin
+
 from StringIO import StringIO
 
 from django.core.urlresolvers import reverse
@@ -93,7 +95,7 @@ def compress_css(paths):
                     break
                 output.write(data)
         output.write('\n')
-    return output.getvalue()
+    return cssmin.cssmin(output.getvalue())
 
 
 def compress_js(paths):

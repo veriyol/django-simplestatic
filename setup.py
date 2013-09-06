@@ -118,6 +118,6 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
     ],
-    install_requires=['boto >= 2.8.0'],
+    install_requires=['boto >= 2.8.0', 'cssmin==0.1.4'],
     zip_safe=False,
 )
