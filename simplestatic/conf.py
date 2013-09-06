@@ -16,16 +16,16 @@ SIMPLESTATIC_COMPRESSED_DIR = getattr(settings,
     'SIMPLESTATIC_COMPRESSED_DIR', 'compressed')
 
 AWS_ACCESS_KEY_ID = getattr(settings, 'AWS_ACCESS_KEY_ID', None)
-if not AWS_ACCESS_KEY_ID:
+if not SIMPLESTATIC_DEBUG and not AWS_ACCESS_KEY_ID:
     raise ImproperlyConfigured('You must set AWS_ACCESS_KEY_ID in settings.')
 
 AWS_SECRET_ACCESS_KEY = getattr(settings, 'AWS_SECRET_ACCESS_KEY', None)
-if not AWS_SECRET_ACCESS_KEY:
+if not SIMPLESTATIC_DEBUG and not AWS_SECRET_ACCESS_KEY:
     raise ImproperlyConfigured(
         'You must set AWS_SECRET_ACCESS_KEY in settings.')
 
 AWS_STORAGE_BUCKET_NAME = getattr(settings, 'AWS_STORAGE_BUCKET_NAME', None)
-if not AWS_STORAGE_BUCKET_NAME:
+if not SIMPLESTATIC_DEBUG and not AWS_STORAGE_BUCKET_NAME:
     raise ImproperlyConfigured(
         'You must set AWS_STORAGE_BUCKET_NAME in settings.')
 
