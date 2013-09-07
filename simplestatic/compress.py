@@ -1,6 +1,7 @@
 import hashlib
 import os
 import subprocess
+import zlib
 
 import cssmin
 
@@ -95,7 +96,7 @@ def compress_css(paths):
                     break
                 output.write(data)
         output.write('\n')
-    return cssmin.cssmin(output.getvalue())
+    return zlib.compress(cssmin.cssmin(output.getvalue()), 9)
 
 
 def compress_js(paths):
@@ -109,4 +110,4 @@ def compress_js(paths):
         shell=True,
         stdout=subprocess.PIPE
     ).communicate()[0]
-    return output
+    return zlib.compress(output, 9)

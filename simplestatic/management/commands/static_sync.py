@@ -41,6 +41,10 @@ def set_content_type(key):
             key.content_type = content_type
 
 
+def set_content_encoding(key):
+    key.content_encoding = 'gzip'
+
+
 class Command(NoArgsCommand):
     help = ('Syncs the contents of your SIMPLESTATIC_DIR to S3, compressing '
         + 'any assets as needed')
@@ -59,6 +63,7 @@ class Command(NoArgsCommand):
             locked_print('Uploading %s from %s' % (name, template))
             key = bucket.new_key(name)
             set_content_type(key)
+            set_content_encoding(key)
             key.set_contents_from_string(compressed, policy='public-read',
                 replace=True)
 
