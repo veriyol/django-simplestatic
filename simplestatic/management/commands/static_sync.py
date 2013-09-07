@@ -42,7 +42,7 @@ def set_content_type(key):
 
 
 def set_content_encoding(key):
-    key.content_encoding = 'gzip'
+    key.set_metadata('Content-Encoding', 'gzip')
 
 
 class Command(NoArgsCommand):
