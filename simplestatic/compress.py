@@ -1,7 +1,7 @@
 import hashlib
 import os
 import subprocess
-import zlib
+import gzip
 
 import cssmin
 
@@ -89,6 +89,7 @@ def js_url(paths):
 def compress_css(paths):
     buf = StringIO()
     out = StringIO()
+    gz = gzip.GzipFile(fileobj=out, mode='w')
     for path in paths:
         with open(path, 'r') as in_file:
             while 1:
@@ -97,13 +98,14 @@ def compress_css(paths):
                     break
                 buf.write(data)
         buf.write('\n')
-    out.write(zlib.compress(cssmin.cssmin(buf.getvalue()), 9))
-    out.seek(0)
-    return out
+    gz.write(cssmin.cssmin(buf.getvalue()))
+    gz.close()
+    return out.getvalue()
 
 
 def compress_js(paths):
     out = StringIO()
+    gz = gzip.GzipFile(fileobj=out, mode='w')
     cmd = '%s --compilation_level %s %s' % (
         conf.CLOSURE_COMPILER_COMMAND,
         conf.CLOSURE_COMPILATION_LEVEL,
@@ -114,6 +116,6 @@ def compress_js(paths):
         shell=True,
         stdout=subprocess.PIPE
     ).communicate()[0]
-    out.write(zlib.compress(output, 9))
-    out.seek(0)
-    return out
+    gz.write(output)
+    gz.close()
+    return out.getvalue()
