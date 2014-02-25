@@ -1,6 +1,7 @@
 import mimetypes
 import os
 
+from datetime import datetime, timedelta
 from threading import local, RLock
 
 from multiprocessing.pool import ThreadPool
@@ -40,10 +41,13 @@ def set_content_type(key):
         if content_type:
             key.content_type = content_type
 
-
 def set_content_encoding(key):
     key.set_metadata('Content-Encoding', 'gzip')
 
+def set_expires(key):
+    expires = datetime.utcnow() + timedelta(days=(25 * 365))
+    expires = expires.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    key.set_metadata('Expires', expires)
 
 class Command(NoArgsCommand):
     help = ('Syncs the contents of your SIMPLESTATIC_DIR to S3, compressing '
@@ -64,6 +68,7 @@ class Command(NoArgsCommand):
             key = bucket.new_key(name)
             set_content_type(key)
             set_content_encoding(key)
+            set_content_expires(key)
             key.set_contents_from_string(compressed, policy='public-read',
                 replace=True)
 
