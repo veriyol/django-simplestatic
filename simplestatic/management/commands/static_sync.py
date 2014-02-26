@@ -68,7 +68,7 @@ class Command(NoArgsCommand):
             key = bucket.new_key(name)
             set_content_type(key)
             set_content_encoding(key)
-            set_content_expires(key)
+            set_expires(key)
             key.set_contents_from_string(compressed, policy='public-read',
                 replace=True)
 
